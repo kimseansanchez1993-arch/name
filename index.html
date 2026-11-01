@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wonderland</title>
+
+<style>
+
+body {background-image: url("https://i.ibb.co/fjfXmg3/Projects.png");}
+
+a:link {color: white;
+	background-color: transparent;
+	text-decoration: none;}
+a:visited {color: white;
+	background-color: transparent;
+	text-decoration: none;}
+a:hover {color: #f4c176;
+	background-color: transparent;
+	text-decoration: none;}
+a:active {color: #f4c176;
+	background-color: transparent;
+	text-decoration: none;}
+
+.btn {background-color: transparent;
+	border: 3px solid #f4c176;
+	color: #f4c176;
+	border-radius: 12px;
+	font-size: 130%;
+	font-family: "Colonna MT";}
+
+  .card-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    font-size: 50px;
+    font-family: serif;
+    z-index: 9999;
+    animation: fallAndFade 1s linear forwards;
+  }
+
+  .card-burst {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    font-size: 65px;
+    font-family: serif;
+    z-index: 9999;
+    animation: burstAndFade 0.6s ease-out forwards;
+  }
+
+  @keyframes fallAndFade {
+    0% {
+      transform: translateY(0) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100px) scale(0.5) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes burstAndFade {
+    0% {
+      transform: translate(0, 0) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(var(--rot));
+      opacity: 0;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+
+<audio controls autoplay loop style="margin: 0 auto; display: block;">
+<source src="https://mp3tourl.com/audio/1793092917337-b3afd4b3-781c-4d6f-a73f-96378631f8d2.mp3" type="audio/mpeg">
+</audio>
+
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 150%">Hello?</p>
+
+<h1 style="color: white; font-size: 200%; text-align: center; text-decoration: overline underline;">Table of Contents (Clickable)</h1>
+<p style="font-size: 150%; text-align: center;"><a href="fil.html">Filipino</a></p>
+<p style="font-size: 150%; text-align: center;"><a href="eng.html">English</a></p>
+<p style="font-size: 150%; text-align: center;"><a href="math.html">Mathematics</a></p>
+<p style="font-size: 150%; text-align: center;"><a href="sci.html">Science</a></p>
+<p style="font-size: 150%; text-align: center;"><a href="tle.html">Technology and Livelihood Education</a></p>
+<p style="font-size: 150%; text-align: center;"><a href="ap.html">Araling Panlipunan</a></p>
+<p style="font-size: 150%; text-align: center;"><a href="mapeh.html">MAPEH (Music and Arts)</a></p>
+<p style="font-size: 150%; text-align: center;"><a href="valed.html">Values Education</a></p>
+<p style="font-size: 150%; text-align: center;"><a href="studprof.html">About the Student</a></p>
+
+<script>
+
+const suits = ['♠', '♥', '♦', '♣'];
+const colors = ['#f4c176', 'black', 'black', '#f4c176'];
+let lastMove = 0;
+
+document.addEventListener('mousemove', function(e) {
+  const now = Date.now();
+  if (now - lastMove < 30) return;
+  lastMove = now;
+
+  const element = document.createElement('div');
+  element.className = 'card-trail';
+  
+  const randomIndex = Math.floor(Math.random() * suits.length);
+  element.innerText = suits[randomIndex];
+  element.style.color = colors[randomIndex];
+
+  element.style.left = (e.clientX - 10) + 'px';
+  element.style.top = (e.clientY - 10) + 'px';
+
+  const randomXDrift = (Math.random() - 0.5) * 40;
+  element.style.setProperty('--drift', randomXDrift + 'px');
+
+  document.body.appendChild(element);
+
+  setTimeout(() => {
+    element.remove();
+  }, 1000);
+});
+
+document.addEventListener('click', function(e) {
+  const particleCount = 8;
+  const radius = 80;
+
+  for (let i = 0; i < particleCount; i++) {
+    const angle = (i / particleCount) * 2 * Math.PI;
+    const targetX = Math.cos(angle) * radius;
+    const targetY = Math.sin(angle) * radius;
+    const randomRotation = Math.floor(Math.random() * 360) + 'deg';
+
+    const element = document.createElement('div');
+    element.className = 'card-burst';
+
+    const randomIndex = Math.floor(Math.random() * suits.length);
+    element.innerText = suits[randomIndex];
+    element.style.color = colors[randomIndex];
+
+    element.style.left = (e.clientX - 12) + 'px';
+    element.style.top = (e.clientY - 12) + 'px';
+
+    element.style.setProperty('--tx', targetX + 'px');
+    element.style.setProperty('--ty', targetY + 'px');
+    element.style.setProperty('--rot', randomRotation);
+
+    document.body.appendChild(element);
+
+    setTimeout(() => {
+      element.remove();
+    }, 600);
+  }
+});
+</script>
+
+</body>
+</html>
+
+

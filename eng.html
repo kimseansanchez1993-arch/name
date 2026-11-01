@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wonderland</title>
+
+<style>
+
+body {background-image: url("https://i.ibb.co/bMHsMvMk/bg-img-2.png");}
+
+.btn {background-color: transparent;
+	border: 3px solid #f4c176;
+	color: #f4c176;
+	border-radius: 12px;
+	font-size: 130%;
+	font-family: "Colonna MT";}
+
+  .card-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    font-size: 50px;
+    font-family: serif;
+    z-index: 9999;
+    animation: fallAndFade 1s linear forwards;
+  }
+
+  .card-burst {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    font-size: 65px;
+    font-family: serif;
+    z-index: 9999;
+    animation: burstAndFade 0.6s ease-out forwards;
+  }
+
+  @keyframes fallAndFade {
+    0% {
+      transform: translateY(0) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100px) scale(0.5) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes burstAndFade {
+    0% {
+      transform: translate(0, 0) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(var(--rot));
+      opacity: 0;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<p style="color: rgba(0, 0, 0, 0); font-size: 50%">Hello?</p>
+<audio controls autoplay loop style="margin: 0 auto; display: block;">
+<source src="https://mp3tourl.com/audio/1793091313954-8e5f3d8c-0bc7-42d3-ba00-238516e2bbc9.mp3" type="audio/mpeg">
+</audio>
+
+<p style="color: rgba(0, 0, 0, 0); font-size: 90%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 90%">Hello?</p>
+
+<h1 style="color: white; font-size: 200%; text-align: center; text-decoration: overline underline;" id="Eng">English: "Sonnets"</h1>
+
+<p style="text-align: center;"><button class="btn" onclick="toggleSubject('Eng')">See Other Text</button></p>
+
+<div id="myDIV_Eng" style="color: white; font-size: 150%; text-align: center;">
+  <b><em>Sonnet 138: When my love swears she is made of truth</em></b><br>When my love swears that she is made of truth,<br>I do believe her, though I know she lies,<br>That she might think me some untutored youth,<br>Unlearnèd in the world’s false subtleties<br>Thus vainly thinking that she thinks me young,<br>Although she knows my days are past the best,<br>Simply I credit her false-speaking tongue:<br>On both sides thus is simple truth suppressed.<br>But wherefore says she not she is unjust?<br>And wherefore say not I that I am old?<br>Oh, love’s best habit is in seeming trust,<br>And age in love loves not to have years told.<br>    Therefore I lie with her and she with me,<br>    And in our faults by lies we flattered be.
+</div>
+
+
+<p style="text-align: center;">
+    <a href="index.html">
+        <button class="btn">Go Back to Start</button>
+    </a>
+</p>
+
+<script>
+
+const suits = ['♠', '♥', '♦', '♣'];
+const colors = ['#d1768f', 'black', 'black', '#d1768f'];
+let lastMove = 0;
+
+document.addEventListener('mousemove', function(e) {
+  const now = Date.now();
+  if (now - lastMove < 30) return;
+  lastMove = now;
+
+  const element = document.createElement('div');
+  element.className = 'card-trail';
+  
+  const randomIndex = Math.floor(Math.random() * suits.length);
+  element.innerText = suits[randomIndex];
+  element.style.color = colors[randomIndex];
+
+  element.style.left = (e.clientX - 10) + 'px';
+  element.style.top = (e.clientY - 10) + 'px';
+
+  const randomXDrift = (Math.random() - 0.5) * 40;
+  element.style.setProperty('--drift', randomXDrift + 'px');
+
+  document.body.appendChild(element);
+
+  setTimeout(() => {
+    element.remove();
+  }, 1000);
+});
+
+document.addEventListener('click', function(e) {
+  const particleCount = 8;
+  const radius = 80;
+
+  for (let i = 0; i < particleCount; i++) {
+    const angle = (i / particleCount) * 2 * Math.PI;
+    const targetX = Math.cos(angle) * radius;
+    const targetY = Math.sin(angle) * radius;
+    const randomRotation = Math.floor(Math.random() * 360) + 'deg';
+
+    const element = document.createElement('div');
+    element.className = 'card-burst';
+
+    const randomIndex = Math.floor(Math.random() * suits.length);
+    element.innerText = suits[randomIndex];
+    element.style.color = colors[randomIndex];
+
+    element.style.left = (e.clientX - 12) + 'px';
+    element.style.top = (e.clientY - 12) + 'px';
+
+    element.style.setProperty('--tx', targetX + 'px');
+    element.style.setProperty('--ty', targetY + 'px');
+    element.style.setProperty('--rot', randomRotation);
+
+    document.body.appendChild(element);
+
+    setTimeout(() => {
+      element.remove();
+    }, 600);
+  }
+});
+
+const subjectStates = {
+  Eng: 0
+};
+
+const subjectTexts = {
+    Eng: [
+    "<b><em>Sonnet 138: When my love swears she is made of truth</em></b><br>When my love swears that she is made of truth,<br>I do believe her, though I know she lies,<br>That she might think me some untutored youth,<br>Unlearnèd in the world’s false subtleties<br>Thus vainly thinking that she thinks me young,<br>Although she knows my days are past the best,<br>Simply I credit her false-speaking tongue:<br>On both sides thus is simple truth suppressed.<br>But wherefore says she not she is unjust?<br>And wherefore say not I that I am old?<br>Oh, love’s best habit is in seeming trust,<br>And age in love loves not to have years told.<br>    Therefore I lie with her and she with me,<br>    And in our faults by lies we flattered be.",
+    "Sonnets.<br>They’re amazing pieces of literature,<br>resembling the art of poetry—with every word <br>woven onto the paper with a gentleness readers would feel.<br>Hereby, presented is “Sonnet 138:<br>When My Love Swears that She is Made of Truth”,<br>written by William Shakespeare around the 1950s period.<br>Generally, it presents a theme of love, and sacrifices made.<br>It also acknowledges the reality that human beings are imperfect,<br>and that love means accepting these flaws—whether simple or not.<br>As a reader, I analyzed the sonnet with all my heart,<br>and will discuss it in such a manner.<br> <br> <br> <br> ",
+    "Sacrifices are a part of everyday life.<br>Whether it’s done to protect yourself, or others, it's made.<br>Sometimes, these sacrifices include accepting another’s fault.<br>The line “I do believe her, though I know<br>she lies” is a beautiful interpretation of such. However,<br>the speaker also has faults, stated in lines<br>including the one that says “Thus vainly thinking that she thinks me young”.<br>“But wherefore say she not she is unjust?<br>And wherefore say not I that I am old?”,<br>which means, in my understanding,<br>that they never deny, but accept.<br>The line “Therefore I lie with her, and she with me,<br>and in our faults by lies we flattered be.” justifies so.<br> <br> <br> ",
+    "Today, people worry themselves all too much<br>about the faults and flaws of others.<br>But then again, sacrifices are made<br>in our everyday lives. We aren’t perfect,<br>so we shouldn’t expect others to be perfect.<br>And that is simply because “love’s best habit is in seeming<br>trust, and age in love loves not to<br>have years told.” To conclude,<br>people simply are people, and we<br>must learn to accept and love<br>all of them. Whether it’s their flawless<br>side, or the one severely flawed.<br> <br> <br> ",
+    "<em>Source</em><br>...<br>https://www.poetryfoundation.org/poems/50386/sonnet<br>-138-when-my-love-swears-that-she-is-made-of-truth<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> "
+  ],
+}
+
+function toggleSubject(subject) {
+    const totalTexts = subjectTexts[subject].length;
+    subjectStates[subject] = (subjectStates[subject] + 1) % totalTexts;
+    const nextText = subjectTexts[subject][subjectStates[subject]];
+    document.getElementById('myDIV_' + subject).innerHTML = nextText;
+}
+
+</script>
+
+</body>
+</html>

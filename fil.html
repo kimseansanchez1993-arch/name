@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wonderland</title>
+
+<style>
+
+body {background-image: url("https://i.ibb.co/T5X6cHR/bg-img-1.png");}
+
+.btn {background-color: transparent;
+	border: 3px solid #f4c176;
+	color: #f4c176;
+	border-radius: 12px;
+	font-size: 130%;
+	font-family: "Colonna MT";}
+
+  .card-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    font-size: 50px;
+    font-family: serif;
+    z-index: 9999;
+    animation: fallAndFade 1s linear forwards;
+  }
+
+  .card-burst {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    font-size: 65px;
+    font-family: serif;
+    z-index: 9999;
+    animation: burstAndFade 0.6s ease-out forwards;
+  }
+
+  @keyframes fallAndFade {
+    0% {
+      transform: translateY(0) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100px) scale(0.5) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes burstAndFade {
+    0% {
+      transform: translate(0, 0) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(var(--rot));
+      opacity: 0;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<p style="color: rgba(0, 0, 0, 0); font-size: 50%">Hello?</p>
+<audio controls autoplay loop style="margin: 0 auto; display: block;">
+<source src="https://mp3tourl.com/audio/1793086327552-9037782a-3ee0-4909-a9e9-550384d46d68.mp3" type="audio/mpeg">
+</audio>
+
+<p style="color: rgba(0, 0, 0, 0); font-size: 90%">Hello?</p>
+<p style="color: rgba(0, 0, 0, 0); font-size: 90%">Hello?</p>
+
+<h1 style="color: white; font-size: 200%; text-align: center; text-decoration: overline underline;" id="Fil">Filipino: "Haiku't Tanka"</h1>
+<p style="text-align: center;"><button class="btn" onclick="toggleSubject('Fil')">Tignan ang Ibang Teksto</button></p>
+
+<div id="myDIV_Fil" style="color: white; font-size: 150%; text-align: center; min-height: 200px; padding: 20px;">
+    <em>Haiku</em><br>...<br>‘No ang Mahika?<br>Ito ba ay Maganda<br>Parang Bulaklak?<br>•••<br><em>Tanka</em><br>...<br>Siyang Bulaklak.<br>Ano kaya Mangyari<br>Kung 'ya'y mahika?<br>Ano kaya mangyari<br>Kung ang Bitui'y Kaniya?<br>...
+</div>
+
+<p style="text-align: center;">
+    <a href="index.html">
+        <button class="btn">Balik sa Simula</button>
+    </a>
+</p>
+
+<script>
+
+const suits = ['♠', '♥', '♦', '♣'];
+const colors = ['#C11C84', 'black', 'black', '#C11C84'];
+let lastMove = 0;
+
+document.addEventListener('mousemove', function(e) {
+  const now = Date.now();
+  if (now - lastMove < 30) return;
+  lastMove = now;
+
+  const element = document.createElement('div');
+  element.className = 'card-trail';
+  
+  const randomIndex = Math.floor(Math.random() * suits.length);
+  element.innerText = suits[randomIndex];
+  element.style.color = colors[randomIndex];
+
+  element.style.left = (e.clientX - 10) + 'px';
+  element.style.top = (e.clientY - 10) + 'px';
+
+  const randomXDrift = (Math.random() - 0.5) * 40;
+  element.style.setProperty('--drift', randomXDrift + 'px');
+
+  document.body.appendChild(element);
+
+  setTimeout(() => {
+    element.remove();
+  }, 1000);
+});
+
+document.addEventListener('click', function(e) {
+  const particleCount = 8;
+  const radius = 80;
+
+  for (let i = 0; i < particleCount; i++) {
+    const angle = (i / particleCount) * 2 * Math.PI;
+    const targetX = Math.cos(angle) * radius;
+    const targetY = Math.sin(angle) * radius;
+    const randomRotation = Math.floor(Math.random() * 360) + 'deg';
+
+    const element = document.createElement('div');
+    element.className = 'card-burst';
+
+    const randomIndex = Math.floor(Math.random() * suits.length);
+    element.innerText = suits[randomIndex];
+    element.style.color = colors[randomIndex];
+
+    element.style.left = (e.clientX - 12) + 'px';
+    element.style.top = (e.clientY - 12) + 'px';
+
+    element.style.setProperty('--tx', targetX + 'px');
+    element.style.setProperty('--ty', targetY + 'px');
+    element.style.setProperty('--rot', randomRotation);
+
+    document.body.appendChild(element);
+
+    setTimeout(() => {
+      element.remove();
+    }, 600);
+  }
+});
+
+const subjectStates = {
+  Fil: 0
+};
+
+const subjectTexts = {
+  Fil: [
+    "<em>Haiku</em><br>...<br>‘No ang Mahika?<br>Ito ba ay Maganda<br>Parang Bulaklak?<br>•••<br><em>Tanka</em><br>...<br>Siyang Bulaklak.<br>Ano kaya Mangyari<br>Kung 'ya'y mahika?<br>Ano kaya mangyari<br>Kung ang Bitui'y Kaniya?<br>...",
+    "Ang mga isinulat na mga tula ay magkadugtong,<br>at parehas na ukol sa mahika.<br>Tinatalakay ng sinulat na Haiku ang paksa,<br>ngunit hinambing ito sa isang bulaklak,<br>habang ang Tankang sinulat ay may kaunting halo ng paksang pagibig.<br>Para masunod ang mga tamang bilang ng pantig<br>(5-7-5, at 5-7-5-7-7),<br>binigkas ko ito at binilang sa aking mga kamay ang mga pantig.<br>Sinigurado ko bilang manunulat na ang mga tula<br>ay may halong ‘mahika’ na mismo,<br>at mga metapora na maaaring gamiting panghambing sa mga paksa.<br>Sinigurado ko rin na ang paksa ng mga ito ay may<br>koneksiyon sa mismong<br>tema ng website.",
+    "Subalit naging masaya naman ako sa aking isinulat,<br>lubos akong nahirapan na maghanap ng mga salita at<br>paksa na babagay sa disenyo ng aking website.<br>Karagdagan pa, mas sanay akong magsulat ng<br>mahahabang tula kaysa sa maikli. Nang nagsulat ng Haiku at Tanka,<br>naging hamon sa akin ipahiwatig ang nasa isipan,<br>habang nakalimita sa iilang taludtod,<br>at iilang pantig. Ngunit naging malaking tulong rin ang araling ito<br>sa akin upang maintindihan ang kultura ng Hapon<br>sa pagdating sa literatura, at naktulong rin saakin<br>intindihin na hindi kailangan ng<br>napakaraming mga salita upang magpahiwatig ng emosyon.<br>Natatutunan ko rin na kahit sa mga simpleng salita,<br>maaaring ipakita ang ganda ng mundo."
+  ]
+};
+
+function toggleSubject(subject) {
+    const totalTexts = subjectTexts[subject].length;
+    subjectStates[subject] = (subjectStates[subject] + 1) % totalTexts;
+    const nextText = subjectTexts[subject][subjectStates[subject]];
+    document.getElementById('myDIV_' + subject).innerHTML = nextText;
+}
+
+</script>
+
+</body>
+</html>
